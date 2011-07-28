@@ -18,7 +18,11 @@
  * @subpackage	Drivers
  */
 class Minify_css extends CI_Driver {
-
+    
+    public $relativePath = NULL;
+    
+    public $preserveComments = FALSE;
+    
 	/**
 	 * Constructor
 	 *
