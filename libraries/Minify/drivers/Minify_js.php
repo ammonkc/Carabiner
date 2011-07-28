@@ -50,13 +50,16 @@ class Minify_js extends CI_Driver {
 	 */
 	public function min($file = '', $compact = TRUE)
 	{
-		if ($file == '' OR ! file_exists($file))
+		if ( ! empty($file))
 		{
-			log_message('error', 'Minify_js->min missing file');
-			return FALSE;
+		    // modified to us to pass content or file reference
+		    $contents = (file_exists($file) ? file_get_contents($file) : $file);
 		}
-
-		$contents = file_get_contents($file);
+		else 
+		{
+		    log_message('error', 'Minify_js->min missing file');
+		    return FALSE;
+		}
 
 		if ($compact != FALSE)
 		{

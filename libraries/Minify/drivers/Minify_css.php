@@ -43,19 +43,23 @@ class Minify_css extends CI_Driver {
 	 */
 	public function min($file = '', $compact = TRUE, $is_aggregated = NULL)
 	{
-		if ($file == '' OR ! file_exists($file))
+		if ( ! empty($file))
 		{
-			log_message('error', 'Minify_css->min missing file '.$file);
-			return FALSE;
+		    // modified to us to pass content or file reference
+		    $contents = (file_exists($file) ? file_get_contents($file) : $file);
+		    if ( ! isset($is_aggregated))
+		    {
+		    	$contents = (file_exists($file) ? file_get_contents($file) : $file);
+		    }
+		    else
+		    {
+		    	$contents = (file_exists($file) ? $this->remove_charsets(file_get_contents($file)) : $this->remove_charsets($file));
+		    }
 		}
-
-		if ( ! isset($is_aggregated))
+		else 
 		{
-			$contents = file_get_contents($file);
-		}
-		else
-		{
-			$contents = $this->remove_charsets(file_get_contents($file));
+		    log_message('error', 'Minify_css->min missing file');
+		    return FALSE;
 		}
 
 		if ($compact != FALSE)

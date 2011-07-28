@@ -251,6 +251,7 @@ class Carabiner {
 	
 	public $minify_js  = TRUE;
 	public $minify_css = TRUE;
+	public $minify_driver = TRUE;
 	public $force_curl = FALSE;
 	
 	private $js  = array('main'=>array());
@@ -1087,7 +1088,14 @@ class Carabiner {
 		if( isset($this->loaded[$lib]) ):
 			return FALSE;
 		else:
-			$this->CI->load->library($lib);
+			if ($lib == 'minify')
+			{
+			    $this->CI->load->driver($lib);
+			}
+			else
+			{
+			    $this->CI->load->library($lib);
+			}
 			$this->loaded[$lib] = TRUE;
 
 			log_message('debug', 'Carabiner: Codeigniter library '."'$lib'".' loaded');
